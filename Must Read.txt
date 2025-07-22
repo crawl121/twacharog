@@ -1,0 +1,9 @@
+Skin_disease_ver2
+Load pre-trained MobileNetV2 model
+
+Accuracy was around 90%
+
+Skin_disease_ver3
+performed fine tuning
+
+Accuracy was around 90%- 100%
