@@ -7,8 +7,8 @@ import os
 app = Flask(__name__)
 
 # Define dataset paths
-train_dir = r"C:\Data Tanveer\Projects\Business Use Cases\Q Skin disease detection\Q Skin disease Ver 2\skin-disease-dataset\train_set"
-test_dir = r"C:\Data Tanveer\Projects\Business Use Cases\Q Skin disease detection\Q Skin disease Ver 2\skin-disease-dataset\test_set"
+train_dir = r"C:\skin-disease-dataset\train_set"
+test_dir = r"C:\skin-disease-dataset\test_set"
 
 # Ensure dataset paths exist
 if not os.path.exists(train_dir):
@@ -121,3 +121,4 @@ def uploaded_file(filename):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
