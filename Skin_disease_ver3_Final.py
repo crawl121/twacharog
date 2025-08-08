@@ -9,9 +9,9 @@ import os
 
 app = Flask(__name__)
 
-# 📌 Define dataset paths
-train_dir = r"C:\Users\Mishika joshi\Documents\Q Skin disease Ver 2\skin-disease-dataset\train_set"
-test_dir = r"C:\Users\Mishika joshi\Documents\Q Skin disease Ver 2\skin-disease-dataset\test_set"
+#Define dataset paths
+train_dir = r"C:\Users\path to \train_set"
+test_dir = r"C:\Users\path to \test_set"
 
 # Ensure dataset paths exist
 if not os.path.exists(train_dir):
@@ -19,11 +19,11 @@ if not os.path.exists(train_dir):
 if not os.path.exists(test_dir):
     raise FileNotFoundError(f"Testing directory not found: {test_dir}")
 
-# 📌 Model parameters
+#Model parameters
 IMG_SIZE = (224, 224)  # MobileNetV2 requires 224x224 images
 BATCH_SIZE = 32
 
-# 📌 Data augmentation & preprocessing
+#Data augmentation &preprocessing
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -55,7 +55,7 @@ test_generator = test_datagen.flow_from_directory(
 class_indices = train_generator.class_indices
 classes = list(class_indices.keys())
 
-# 📌 Load MobileNetV2 (Pretrained Model)
+#Load MobileNetV2 (Pretrained Model)
 base_model = tf.keras.applications.MobileNetV2(
     input_shape=(224, 224, 3),
     include_top=False,
@@ -78,33 +78,27 @@ model = Sequential([
 # Compile model
 model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
-# 📌 Train only the classifier first
-model.fit(train_generator, epochs=10, validation_data=test_generator)
+model.fit(train_generator, epochs=10, validation_data=test_generator)#train classifier only 
 
-# 📌 Fine-Tune: Unfreeze last 20 layers
-for layer in base_model.layers[-20:]:
+
+for layer in base_model.layers[-20:]:#unfreeze last 20 layers 
     layer.trainable = True
 
 # Recompile with a lower learning rate for fine-tuning
 model.compile(optimizer=Adam(learning_rate=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Train again with fine-tuning
 model.fit(train_generator, epochs=10, validation_data=test_generator)
 
-# 📌 Save trained model
-model.save("skin_disease_detector.h5")
+model.save("skin_disease_detector.h5") #save the trained model
 print("Model training complete. Saved as 'skin_disease_detector.h5'.")
 
-# Load trained model for predictions
-model = tf.keras.models.load_model("skin_disease_detector.h5")
+model = tf.keras.models.load_model("skin_disease_detector.h5")#load model 
 
-# 📌 Create uploads folder
-UPLOAD_FOLDER = r"C:\Users\Mishika joshi\Documents\Q Skin disease Ver 2\uploads"
+UPLOAD_FOLDER = r"C:\Users\path to twacharog \uploads" #create a new upload folder 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-# 📌 Function to predict disease with confidence
-def predict_disease(img_path):
+def predict_disease(img_path): #Function to predict disease with confidence
     img = load_img(img_path, target_size=IMG_SIZE)
     img_array = img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)  # Expand dimensions for batch size
@@ -115,8 +109,7 @@ def predict_disease(img_path):
     predicted_class = classes[np.argmax(prediction)]
     return predicted_class, confidence
 
-# 📌 Flask Routes
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET", "POST"]) #flask route
 def index():
     if request.method == "POST":
         if "file" not in request.files:
@@ -143,3 +136,4 @@ def uploaded_file(filename):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
