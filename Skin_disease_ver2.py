@@ -77,7 +77,7 @@ print("Model training complete. Saved as 'skin_disease_detector.h5'.")
 model = tf.keras.models.load_model("skin_disease_detector.h5")
 
 # Create uploads folder
-UPLOAD_FOLDER = r"C:\Data Tanveer\Projects\Business Use Cases\Q Skin disease detection\uploads"
+UPLOAD_FOLDER = r"C:\uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
@@ -121,4 +121,5 @@ def uploaded_file(filename):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
