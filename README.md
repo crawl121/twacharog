@@ -16,5 +16,5 @@ dermatological image datasets with a web-based user interface built using TypeSc
 |-------------------|-------------------------------|
 | Model             | TensorFlow / MobileNetV2      |
 | Server            | Flask (Python)                |
-| Frontend          | HTML, CSS, TypeScript         |
+| Frontend          | HTML, CSS, JavaScript         |
 | Data Augmentation | TensorFlow ImageDataGenerator |
