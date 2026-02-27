@@ -1,0 +1,67 @@
+<!-- templates/doctors.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select a Doctor</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f7f8fc, #e3ebf6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+
+    .doctor-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(167, 167, 234, 0.948);
+      margin-bottom: 20px;
+      width: 300px;
+      text-align: center;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .doctor-card h3 {
+      margin: 0;
+      color: #4a90e2;
+    }
+
+    .doctor-card p {
+      color: #666;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h2>Available Doctors</h2>
+
+  <div class="doctor-card" onclick="window.location.href='/book/1'">
+    <h3>Dr. Aarti Sharma</h3>
+    <p>Dermatologist, AIIMS Delhi</p>
+  </div>
+
+  <div class="doctor-card" onclick="window.location.href='/book/2'">
+    <h3>Dr. Manish Verma</h3>
+    <p>Skin Specialist, Fortis Hospital</p>
+  </div>
+
+  <div class="doctor-card" onclick="window.location.href='/book/3'">
+    <h3>Dr. Reena Kapoor</h3>
+    <p>Consultant Dermatologist, Medanta</p>
+  </div>
+</body>
+</html>

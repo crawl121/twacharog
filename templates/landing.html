@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Twacharog | Skin Health Intelligence</title>
+  <style>
+    :root {
+      --green-1: #0f3d2e;
+      --green-2: #1f6f5c;
+      --green-3: #8bc1a6;
+      --off-white: #f6f8f4;
+      --sand: #e9efe6;
+      --accent: #f0b429;
+      --ink: #1c2520;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Work Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(1200px 600px at 20% -10%, #e0f1e8 0%, transparent 60%),
+                  linear-gradient(180deg, var(--off-white), #ffffff);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 7vw;
+    }
+
+    .brand {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 28px;
+      letter-spacing: 0.5px;
+      color: var(--green-1);
+    }
+
+    .nav-actions a {
+      text-decoration: none;
+      color: var(--green-1);
+      margin-left: 18px;
+      font-weight: 600;
+    }
+
+    .nav-actions .cta {
+      background: var(--green-2);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+      padding: 40px 7vw 80px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 48px;
+      margin: 0 0 18px;
+      color: var(--green-1);
+      line-height: 1.05;
+    }
+
+    .hero p {
+      font-size: 18px;
+      line-height: 1.6;
+      margin: 0 0 28px;
+      color: #2b3a34;
+    }
+
+    .hero .cta-group a {
+      display: inline-block;
+      padding: 12px 22px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-right: 12px;
+    }
+
+    .btn-primary {
+      background: var(--green-2);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--green-2);
+      color: var(--green-2);
+      background: transparent;
+    }
+
+    .hero-card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 18px 40px rgba(15, 61, 46, 0.12);
+      border: 1px solid #e6efe9;
+    }
+
+    .hero-card h3 {
+      margin: 0 0 14px;
+      color: var(--green-1);
+    }
+
+    .hero-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 22px;
+    }
+
+    .hero-card li {
+      padding: 10px 0;
+      border-bottom: 1px solid #eef2ee;
+      font-size: 15px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--sand);
+      color: var(--green-1);
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .about {
+      padding: 0 7vw 70px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .about-card {
+      background: #fff;
+      border-radius: 18px;
+      padding: 22px;
+      border: 1px solid #e6efe9;
+    }
+
+    .about-card h4 {
+      margin: 0 0 12px;
+      color: var(--green-1);
+    }
+
+    .about-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #2d3b35;
+    }
+
+    .footer {
+      padding: 24px 7vw 40px;
+      color: #51645b;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="brand">Twacharog</div>
+    <div class="nav-actions">
+      <a href="/login">Login</a>
+      <a class="cta" href="/signup">Sign Up</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="badge">Skin Health Intelligence</div>
+      <h1>Clearer skin insights, powered by AI.</h1>
+      <p>
+        Twacharog helps you understand visible skin conditions with quick image analysis,
+        confidence scoring, and a guided knowledge companion.
+      </p>
+      <div class="cta-group">
+        <a class="btn-primary" href="/signup">Get Started</a>
+        <a class="btn-secondary" href="/login">I Already Have An Account</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h3>What you get</h3>
+      <ul>
+        <li>Fast image-based detection with confidence scoring</li>
+        <li>Minimal, focused experience built for clarity</li>
+        <li>Ask questions about a condition, right after results</li>
+      </ul>
+      <div class="badge" style="background: #fff3d2; color: #7a5600;">Private by design</div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="about-card">
+      <h4>About Us</h4>
+      <p>
+        We are a focused team building simple, trustworthy health interfaces that
+        help people take the next step with confidence.
+      </p>
+    </div>
+    <div class="about-card">
+      <h4>Our Mission</h4>
+      <p>
+        Blend clinical caution with accessible AI so anyone can better understand
+        what they are seeing, without unnecessary complexity.
+      </p>
+    </div>
+    <div class="about-card">
+      <h4>Designed For Calm</h4>
+      <p>
+        A green and white palette, minimal typography, and crisp layouts keep the
+        experience grounded and reassuring.
+      </p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    Twacharog is a support tool and not a medical diagnosis. Always consult a medical professional.
+  </footer>
+</body>
+</html>

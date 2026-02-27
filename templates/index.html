@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Skin Disease Detection</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f7f8fc, #e3ebf6);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(167, 167, 234, 0.948);
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .custom-file-upload {
+      border: 2px dashed #888;
+      display: inline-block;
+      padding: 20px;
+      cursor: pointer;
+      border-radius: 12px;
+      background-color: #f9f9f9;
+      transition: background 0.3s;
+      font-size: 16px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .custom-file-upload.dragover {
+      background-color: #d9e8ff;
+      border-color: #4a90e2;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      padding: 12px 25px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #357ab7;
+    }
+
+    .result {
+      margin-top: 30px;
+      color: #333;
+    }
+
+    .confidence {
+      color: #555;
+      margin-top: 10px;
+    }
+
+    img {
+      margin-top: 20px;
+      max-width: 100%;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .loading-spinner {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .form-section {
+      margin-top: 30px;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    select, input[type="time"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Skin Disease Detection</h2>
+    <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+      <label class="custom-file-upload" id="dropZone">
+        <input type="file" name="file" id="fileInput" accept="image/*" required />
+        Drag & drop or click to upload image
+      </label>
+      <br>
+      <button type="submit">Upload & Predict</button>
+      <div class="loading-spinner" id="spinner">⏳ Processing...</div>
+    </form>
+
+    {% if result %}
+    <div class="result">
+      <h3>Predicted Disease: {{ result }}</h3>
+      {% if confidence %}
+      <div class="confidence">
+        <h4>Confidence Level: {{ confidence }}%</h4>
+      </div>
+      {% endif %}
+      {% if image_path %}
+      <img src="{{ url_for('uploaded_file', filename=image_path) }}" alt="Uploaded Image" />
+      {% endif %}
+    </div>
+
+    <!-- Doctor & Time Booking Section (Only after result) -->
+    <div class="form-section">
+      <label for="doctorSelect">Choose Doctor</label>
+      <select id="doctorSelect" onchange="showTimeInput()">
+        <option value="">-- Select a Doctor --</option>
+        <option value="dr_singh">Dr. A. Singh</option>
+        <option value="dr_verma">Dr. B. Verma</option>
+        <option value="dr_khan">Dr. C. Khan</option>
+      </select>
+
+      <div id="timeSection" style="display: none; margin-top: 20px;">
+        <label for="timeInput">Select Appointment Time</label>
+        <input type="time" id="timeInput" name="time" required />
+        <button id="bookBtn" onclick="bookSlot()">Book Slot</button>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  <script>
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const uploadForm = document.getElementById("uploadForm");
+    const spinner = document.getElementById("spinner");
+
+    // Drag events
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(files[0]);
+        fileInput.files = dataTransfer.files;
+      }
+    });
+
+    uploadForm.addEventListener("submit", () => {
+      spinner.style.display = "block";
+    });
+
+    function showTimeInput() {
+      const doctorSelect = document.getElementById("doctorSelect");
+      const timeSection = document.getElementById("timeSection");
+      timeSection.style.display = doctorSelect.value ? "block" : "none";
+    }
+
+    function bookSlot() {
+      const doctor = document.getElementById("doctorSelect").value;
+      const time = document.getElementById("timeInput").value;
+      if (doctor && time) {
+        alert(`Appointment booked with ${doctor} at ${time}`);
+      } else {
+        alert("Please select doctor and time.");
+      }
+    }
+  </script>
+</body>
+</html>

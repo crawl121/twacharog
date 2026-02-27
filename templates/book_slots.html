@@ -1,0 +1,71 @@
+<!-- templates/book_slot.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Appointment</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f7f8fc, #e3ebf6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(167, 167, 234, 0.948);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #4a90e2;
+    }
+
+    label, select, button {
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+    }
+
+    select, button {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      font-weight: bold;
+      transition: background 0.3s ease;
+      margin-top: 30px;
+    }
+
+    button:hover {
+      background-color: #357ab7;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Book with {{ doctor_name }}</h2>
+    <label for="slot">Choose Time Slot</label>
+    <select id="slot">
+      <option>10:00 AM - 10:30 AM</option>
+      <option>11:00 AM - 11:30 AM</option>
+      <option>2:00 PM - 2:30 PM</option>
+      <option>4:00 PM - 4:30 PM</option>
+    </select>
+    <button onclick="alert('Appointment Booked Successfully!')">Book Now</button>
+  </div>
+</body>
+</html>

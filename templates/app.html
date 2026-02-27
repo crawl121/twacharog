@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Twacharog | Skin Analysis</title>
+  <style>
+    :root {
+      --green-1: #0f3d2e;
+      --green-2: #1f6f5c;
+      --green-3: #8bc1a6;
+      --off-white: #f6f8f4;
+      --ink: #1c2520;
+      --card: #ffffff;
+      --error: #b11b1b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: "Work Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--off-white), #ffffff);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 6vw;
+      background: #ffffffcc;
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e6efe9;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .brand {
+      font-family: "Playfair Display", "Times New Roman", serif;
+      font-size: 24px;
+      color: var(--green-1);
+    }
+    .user-actions a {
+      text-decoration: none;
+      color: var(--green-2);
+      font-weight: 600;
+      margin-left: 16px;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      padding: 30px 6vw 60px;
+    }
+    .card {
+      background: var(--card);
+      border-radius: 20px;
+      border: 1px solid #e6efe9;
+      padding: 24px;
+      box-shadow: 0 12px 30px rgba(15, 61, 46, 0.08);
+    }
+    h2 {
+      margin: 0 0 12px;
+      color: var(--green-1);
+    }
+    .subtitle {
+      margin: 0 0 20px;
+      color: #3a4a43;
+    }
+    input[type="file"] {
+      display: none;
+    }
+    .custom-upload {
+      border: 2px dashed #b6d4c4;
+      padding: 22px;
+      border-radius: 14px;
+      background: #f9fcfa;
+      display: block;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+    .custom-upload.dragover {
+      border-color: var(--green-2);
+    }
+    button {
+      margin-top: 16px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: none;
+      background: var(--green-2);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #f0f7f3;
+      border: 1px solid #d5e6dc;
+    }
+    .result strong {
+      color: var(--green-1);
+    }
+    .error {
+      margin-top: 12px;
+      color: var(--error);
+    }
+    img {
+      margin-top: 16px;
+      max-width: 100%;
+      border-radius: 12px;
+      border: 1px solid #e0e8e2;
+    }
+    .chat-box {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .chat-output {
+      min-height: 220px;
+      background: #f9fbf9;
+      border: 1px solid #e0e8e2;
+      border-radius: 12px;
+      padding: 14px;
+      white-space: pre-wrap;
+    }
+    .chat-row {
+      display: flex;
+      gap: 10px;
+    }
+    .chat-row input {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d6e0d9;
+    }
+    .chat-row button {
+      margin-top: 0;
+      padding: 10px 14px;
+    }
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">Twacharog</div>
+    <div class="user-actions">
+      <a href="/">Home</a>
+      <a href="/logout">Logout</a>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="card">
+      <h2>Analyze Skin Condition</h2>
+      <p class="subtitle">Upload an image to get a predicted disease name and confidence score.</p>
+
+      <form id="uploadForm" action="/app" method="post" enctype="multipart/form-data">
+        <label class="custom-upload" id="dropZone">
+          <input type="file" name="file" id="fileInput" accept="image/*" required />
+          Drag & drop or click to upload
+        </label>
+        <button type="submit">Upload & Predict</button>
+      </form>
+
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+
+      {% if result %}
+      <div class="result">
+        <div><strong>Predicted Disease:</strong> {{ result }}</div>
+        <div><strong>Confidence:</strong> {{ confidence }}%</div>
+      </div>
+      {% endif %}
+
+      {% if image_path %}
+      <img src="{{ url_for('uploaded_file', filename=image_path) }}" alt="Uploaded Image" />
+      {% endif %}
+    </div>
+
+    <div class="card">
+      <h2>Ask About It</h2>
+      <p class="subtitle">Use Gemini to learn more about the detected condition.</p>
+      <div class="chat-box">
+        <div id="chatOutput" class="chat-output">Ask a question to get started.</div>
+        <div class="chat-row">
+          <input id="chatInput" type="text" placeholder="What should I know about this condition?" />
+          <button id="chatBtn" type="button">Ask</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const chatBtn = document.getElementById("chatBtn");
+    const chatInput = document.getElementById("chatInput");
+    const chatOutput = document.getElementById("chatOutput");
+    const diseaseName = "{{ result or '' }}";
+
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.classList.add("dragover");
+    });
+
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.classList.remove("dragover");
+    });
+
+    dropZone.addEventListener("drop", (e) => {
+      e.preventDefault();
+      dropZone.classList.remove("dragover");
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(files[0]);
+        fileInput.files = dataTransfer.files;
+      }
+    });
+
+    chatBtn.addEventListener("click", async () => {
+      const question = chatInput.value.trim();
+      if (!question) {
+        chatOutput.textContent = "Please type a question.";
+        return;
+      }
+      chatOutput.textContent = "Thinking...";
+      try {
+        const res = await fetch("/ask", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ question, disease: diseaseName })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          chatOutput.textContent = data.error || "Something went wrong.";
+          return;
+        }
+        chatOutput.textContent = data.answer || "No response received.";
+      } catch (err) {
+        chatOutput.textContent = "Network error. Try again.";
+      }
+    });
+  </script>
+</body>
+</html>

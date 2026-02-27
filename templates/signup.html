@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Twacharog | Sign Up</title>
+  <style>
+    :root {
+      --green-1: #0f3d2e;
+      --green-2: #1f6f5c;
+      --off-white: #f6f8f4;
+      --ink: #1c2520;
+      --error: #b11b1b;
+    }
+    body {
+      margin: 0;
+      font-family: "Work Sans", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(180deg, var(--off-white), #ffffff);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .card {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid #e6efe9;
+      box-shadow: 0 12px 30px rgba(15, 61, 46, 0.12);
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-family: "Playfair Display", "Times New Roman", serif;
+      color: var(--green-1);
+    }
+    p {
+      margin: 0 0 20px;
+      color: #33443c;
+    }
+    label {
+      display: block;
+      margin: 10px 0 6px;
+      font-weight: 600;
+    }
+    input {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #d6e0d9;
+      font-size: 15px;
+    }
+    button {
+      width: 100%;
+      margin-top: 18px;
+      padding: 12px 16px;
+      border: none;
+      border-radius: 10px;
+      background: var(--green-2);
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .error {
+      color: var(--error);
+      margin-top: 10px;
+      font-size: 14px;
+    }
+    .meta {
+      margin-top: 14px;
+      font-size: 14px;
+    }
+    .meta a {
+      color: var(--green-2);
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Create Account</h1>
+    <p>Start your journey with Twacharog.</p>
+    <form method="post" action="/signup">
+      <label for="name">Full Name</label>
+      <input id="name" name="name" type="text" required />
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required />
+
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" required />
+
+      <button type="submit">Sign Up</button>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+    </form>
+    <div class="meta">
+      Already have an account? <a href="/login">Login</a>
+    </div>
+  </div>
+</body>
+</html>
