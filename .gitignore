@@ -1,0 +1,19 @@
+# Dataset folder
+skin-disease-dataset/
+
+# Testing samples
+Samples for testing/
+
+# Uploads folder
+uploads/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Model file (optional if large)
+*.h5
+*.keras
+
+# Virtual environment
+venv/
